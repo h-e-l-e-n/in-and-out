@@ -12,7 +12,7 @@ model restocks {
   product_name          String                  @db.VarChar(45)
   amount                Int
   purchase_cost         Int
-  expire_date           String                  @db.VarChar(45)
+  expire_date           DateTime                @db.DateTime(0)
   product_source        restocks_product_source
   purchase_order_number String                  @db.VarChar(45)
   build_time            DateTime                @default(now()) @db.DateTime(0)

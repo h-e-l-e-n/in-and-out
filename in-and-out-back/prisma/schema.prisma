@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model restocks {
+  id                    Int                     @id @default(autoincrement())
+  product_name          String                  @db.VarChar(45)
+  amount                Int
+  purchase_cost         Int
+  expire_date           String                  @db.VarChar(45)
+  product_source        restocks_product_source
+  purchase_order_number String                  @db.VarChar(45)
+  build_time            DateTime                @default(now()) @db.DateTime(0)
+}
+
+enum restocks_product_source {
+  Poya
+  Shopee
+  Momo
+  Other
+}

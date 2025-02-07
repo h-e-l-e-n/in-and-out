@@ -10,4 +10,8 @@ import Navbar from './components/Navbar.vue'
     <RouterView/>
   </body>
 </template>
-
+<style scoped>
+body {
+  padding: 3rem;
+}
+</style>

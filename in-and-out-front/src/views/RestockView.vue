@@ -17,12 +17,11 @@ const fields = [
   { key: "product_name", label: "商品名稱" },
   { key: "amount", label: "數量" },
   { key: "purchase_cost", label: "進貨成本" },
-  { key: "expire_date", label: "有效日期" },
+  { key: "expire_date", label: "有效日期", formatter: value => formatDate(value) },
   { key: "product_source", label: "來源" },
   { key: "purchase_order_number", label: "訂單號碼" },
-  { key: "build_time", label: "建立時間" },
+  { key: "build_time", label: "建立時間", formatter: value => formatDateTime(value)},
 ]
-
 const sourceOptions = [
   { id:1 ,name: 'Poya'},
   { id:2 ,name: 'Shopee'},
@@ -42,13 +41,7 @@ const fetchAllRestocks = async() => {
   const res = await getRestockRecordAPI()
   restockList.value = res
 }
-const formattedRestockList = computed(() =>
-  restockList.value.map(item => ({
-    ...item,
-    expire_date: formatDate(item.expire_date),
-    build_time:  formatDateTime(item.build_time),
-  }))
-);
+
 onMounted(() => {
   fetchAllRestocks()
 })
@@ -75,8 +68,10 @@ onMounted(() => {
             <!-- <input type="text" class="form-control" placeholder="貨源"> -->
             <!-- <label for="inputState" class="form-label">State</label> -->
             <select v-model="newStockRecord.product_source" id="inputState" class="form-select" style="color: #515151;">
-              <option selected disabled>貨源</option>
-              <option v-for="option in sourceOptions" :key="option.id">{{ option.name }}</option>
+              <option value="" disabled>貨源</option>
+              <option v-for="option in sourceOptions" :key="option.id" :value="option.name">
+                {{ option.name }}
+              </option>            
             </select>
           </div>
           <div class="col">
@@ -89,7 +84,7 @@ onMounted(() => {
       </BCollapse>
     </div>
       <div class="table mt-5">
-        <BTable striped hover :items="formattedRestockList" :fields="fields" />
+        <BTable striped hover :items="restockList" :fields="fields" />
       </div>
 </template>
 

@@ -1,6 +1,7 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { getRestockRecordAPI, addNewRecordAPI } from '../../apis/restockAPIs'
+import { formatDate, formatDateTime } from '@/utils/dayjsDate'
 
 const restockList = ref([])
 const newStockRecord = ref({
@@ -41,6 +42,13 @@ const fetchAllRestocks = async() => {
   const res = await getRestockRecordAPI()
   restockList.value = res
 }
+const formattedRestockList = computed(() =>
+  restockList.value.map(item => ({
+    ...item,
+    expire_date: formatDate(item.expire_date),
+    build_time:  formatDateTime(item.build_time),
+  }))
+);
 onMounted(() => {
   fetchAllRestocks()
 })
@@ -81,7 +89,7 @@ onMounted(() => {
       </BCollapse>
     </div>
       <div class="table mt-5">
-        <BTable striped hover :items="restockList" :fields="fields" />
+        <BTable striped hover :items="formattedRestockList" :fields="fields" />
       </div>
 </template>
 

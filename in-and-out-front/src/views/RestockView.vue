@@ -1,17 +1,16 @@
 <script setup>
 import { onMounted, ref } from 'vue'
-import { getRestockRecordAPI } from '../../apis/restockAPIs'
+import { getRestockRecordAPI, addNewRecordAPI } from '../../apis/restockAPIs'
 
-const newItem = ref([])
 const restockList = ref([])
-const newStockRecord = {
+const newStockRecord = ref({
   product_name: '',
   amount: '',
   purchase_cost: '',
   expire_date: '',
   product_source: '',
   purchase_order_number: ''
-}
+})
 const fields = [
   // { key: "id", label: "編號" },
   { key: "product_name", label: "商品名稱" },
@@ -29,8 +28,13 @@ const sourceOptions = [
   { id:3 ,name: 'Momo'},
   { id:4 ,name: 'Other'},
   ]
-const handleNewStock = () => {
-  console.log(newStockRecord);
+const handleNewStock = async() => {
+  try {
+    await addNewRecordAPI(newStockRecord.value)
+    newStockRecord.value = ""
+  } catch(err) {
+    console.log(err);
+  }
 }
 
 const fetchAllRestocks = async() => {
@@ -57,7 +61,7 @@ onMounted(() => {
             <input v-model="newStockRecord.purchase_cost" type="text" class="form-control" placeholder="進貨成本">
           </div>
           <div class="col">
-            <input v-model="newStockRecord.expire_date" type="text" class="form-control" placeholder="有效期限">
+            <input v-model="newStockRecord.expire_date" type="date" class="form-control" placeholder="有效期限">
           </div>
           <div class="col">
             <!-- <input type="text" class="form-control" placeholder="貨源"> -->

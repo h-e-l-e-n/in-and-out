@@ -49,9 +49,9 @@ onMounted(() => {
 </script>
 <template>
     <div class="restock">
-      <BButton v-b-toggle.collapse-1 class="m-1 mb-4 restock-btn">+ 進貨</BButton>
-      <BCollapse id="collapse-1">
-        <div class="row add-stock-area">
+      <BButton v-b-toggle.collapse-1 class="mx-5 mt-5 mb-3 restock-btn">+ 進貨</BButton>
+      <BCollapse id="collapse-1" class="mx-4">
+        <div class="row add-stock-area mx-2">
           <div class="col-md-4 col col-xl-2">
             <input v-model="newStockRecord.product_name" type="text" class="form-control" placeholder="商品名稱" aria-label="Product name">
           </div>
@@ -81,14 +81,13 @@ onMounted(() => {
         </div>
       </BCollapse>
     </div>
-      <div class="table mt-5">
-        <BTable striped hover :items="restockList" :fields="fields" />
-      </div>
+    <div class="table mt-5 px-3">
+      <BTable striped hover :items="restockList" :fields="fields" />
+    </div>
 </template>
 
 <style scoped>
 .table {
-  width: 100%;
   table-layout: auto;
   justify-self: center;
   text-align: center;

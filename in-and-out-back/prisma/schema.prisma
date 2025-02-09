@@ -16,6 +16,7 @@ model restocks {
   product_source        restocks_product_source
   purchase_order_number String                  @db.VarChar(45)
   build_time            DateTime                @default(now()) @db.DateTime(0)
+  stock_image           String?                 @db.VarChar(255)
 }
 
 enum restocks_product_source {

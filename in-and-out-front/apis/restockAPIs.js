@@ -2,11 +2,11 @@
 import axios from "axios"
 
 export const getRestockRecordAPI = async() => {
-  const response = await axios.get(`api/restock`)
+  const response = await axios.get(`restocks/detail`)
   return response.data
 }
 
 export const addNewRecordAPI = async(data) => {
-  const response = await axios.post(`api/addstock`, data)
+  const response = await axios.post(`restocks/addstock`, data)
   return response.data
 }

@@ -11,7 +11,8 @@ const newStockRecord = ref({
   purchase_cost: '',
   expire_date: '',
   product_source: '',
-  purchase_order_number: ''
+  purchase_order_number: '',
+  stock_image: ''
 })
 const fields = [
   // { key: "id", label: "編號" },
@@ -31,23 +32,32 @@ const sourceOptions = [
   ]
 const handleNewStock = async() => {
   try {
-    await addNewRecordAPI(newStockRecord.value)
-    newStockRecord.value = {}
+      const formData = new FormData();
+
+        for (const key in newStockRecord.value) {
+        if (key !== 'stock_image') {
+          formData.append(key, newStockRecord.value[key]);
+        }
+      }
+      formData.append('file', newStockRecord.value.stock_image);
+      await addNewRecordAPI(formData)
+      newStockRecord.value = {}
   } catch(err) {
     console.log(err);
   }
 }
 
+
 const fetchAllRestocks = async() => {
   const res = await getRestockRecordAPI()
   restockList.value = res
-  console.log(restockList.value);
-
 }
 const imageUrl = ref(null);
 
 const previewImage = (event) => {
   const file = event.target.files[0];
+  newStockRecord.value.stock_image = event.target.files[0];
+
   if (file) {
     imageUrl.value = URL.createObjectURL(file);
   }
@@ -55,6 +65,7 @@ const previewImage = (event) => {
 
 // watch(() => restockList.value, (newVal) => {
 //   if(newVal) {
+//     console.log('newVal:', newVal);
 //     fetchAllRestocks()
 //   }
 // })
